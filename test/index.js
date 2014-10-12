@@ -37,19 +37,23 @@ describe("markdownpdf", function() {
       assert.ifError(er)
       fs.close(tmpPdfFd)
 
-      markdownpdf({runningsPath: __dirname+'/fixtures/runnings.js'}).from(__dirname + "/fixtures/ipsum.md").to(tmpPdfPath, function (er) {
+      markdownpdf({runningsPath: __dirname+'/fixtures/runnings.js'})
+      .from(__dirname + "/fixtures/ipsum.md")
+      .to(tmpPdfPath, function (er) {
         assert.ifError(er)
 
+        console.log(tmpPdfPath);
         // Read the file
         fs.readFile(tmpPdfPath, {encoding: "utf8"}, function (er, data) {
           assert.ifError(er)
           // Test not empty
           assert.ok(data.length > 0)
+          // console.log(data);
 
           // Header and footer included?
           pdfText(tmpPdfPath, function (er, chunks) {
             assert.ifError(er)
-
+            "/Some\s?Header/".test( console.log(chunks.join(' ')) )
             assert.ok(/Some\s?Header/.test(chunks.join('')))
             assert.ok(/Some\s?Footer/.test(chunks.join('')))
             done()
